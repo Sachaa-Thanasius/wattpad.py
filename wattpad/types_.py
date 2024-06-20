@@ -5,7 +5,13 @@ wattpad.types_
 Typings for the Wattpad API.
 """
 
-from typing import TypedDict, NotRequired
+import sys
+from typing import Any, Optional, TypedDict
+
+if sys.version_info >= (3, 11):
+    from typing import NotRequired
+else:
+    from typing_extensions import NotRequired
 
 
 class _Language(TypedDict):
@@ -52,8 +58,8 @@ class User(TypedDict):
     genderCode: str
     language: int
     locale: str
-    createDate: str             # datetime with tz
-    modifyDate: str             # datetime with tz
+    createDate: str  # datetime with tz
+    modifyDate: str  # datetime with tz
     location: str
     verified: bool
     ambassador: bool
@@ -70,10 +76,10 @@ class User(TypedDict):
     numMessages: int
     numLists: int
     verified_email: bool
-    preferred_categories: list
+    preferred_categories: list[str]
     allowCrawler: bool
     deeplink: str
-    isMuted: bool               # provided by default, but inside safety, which is optional
+    isMuted: bool  # provided by default, but inside safety, which is optional
 
     # Need specific query with ?field=
     safety: NotRequired[_Safety]
@@ -85,7 +91,7 @@ class User(TypedDict):
 
 class PartialPart(TypedDict):
     id: int
-    createDate: str             # datetime with tz
+    createDate: str  # datetime with tz
 
 
 class Part(PartialPart):
@@ -93,7 +99,7 @@ class Part(PartialPart):
     url: str
     rating: int
     draft: bool
-    modifyDate: str             # datetime with tz
+    modifyDate: str  # datetime with tz
     length: int
     videoId: str
     photoUrl: str
@@ -102,7 +108,7 @@ class Part(PartialPart):
     readCount: int
 
     # Need specific query with ?field=
-    dedication: NotRequired[dict]
+    dedication: NotRequired[dict[str, Any]]
     wordCount: NotRequired[int]
     text_url: NotRequired[_TextUrl]
     deleted: NotRequired[bool]
@@ -114,8 +120,8 @@ class Part(PartialPart):
 class Story(TypedDict):
     id: int
     title: str
-    createDate: str             # datetime with tz
-    modifyDate: str             # datetime with tz
+    createDate: str  # datetime with tz
+    modifyDate: str  # datetime with tz
     voteCount: int
     readCount: int
     commentCount: int
@@ -123,7 +129,7 @@ class Story(TypedDict):
     user: PartialUser
     description: str
     cover: str
-    cover_timestamp: str        # datetime with tz
+    cover_timestamp: str  # datetime with tz
     completed: bool
     categories: list[int]
     tags: list[str]
@@ -142,7 +148,7 @@ class Story(TypedDict):
     tagRankings: NotRequired[list[_TagRanking]]
     highlight_colour: NotRequired[str]
     promoted: NotRequired[bool]
-    sponsor: NotRequired[list]
+    sponsor: NotRequired[list[str]]
     isAdExempt: NotRequired[bool]
     story_text_url: NotRequired[_TextUrl]
     isPaywalled: NotRequired[bool]
@@ -153,7 +159,7 @@ class Story(TypedDict):
 class Comment(TypedDict):
     author: PartialUser
     body: str
-    createDate: str             # datetime with tz
+    createDate: str  # datetime with tz
     startPosition: int
     endPosition: int
     id: str
@@ -161,7 +167,7 @@ class Comment(TypedDict):
     isReply: bool
     numReplies: int
     paragraphId: str
-    parentId: str | None
+    parentId: Optional[str]
     partId: int
     deeplink: str
     legacyId: int
